@@ -9,3 +9,36 @@ exports.addProduct = async (req, res) => {
     res.status(500).send({ err: error.message });
   }
 };
+
+exports.listProductsPrice = async (req, res) => {
+  try {
+    const products = await Products.find({}).sort({
+      "price.value": req.body.sortOrder,
+    });
+    res.status(200).send({ products });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ err: error.message });
+  }
+};
+
+exports.groupByType = async (req, res) => {
+  try {
+    const groups = await Products.aggregate([
+      // @TODO @FIXME sorting is not working correctly and showing unexpected behaviour.
+      // {
+      //   $sort: { "price.value": 1 },
+      // },
+      {
+        $group: {
+          _id: "$type",
+          products: { $push: "$$ROOT" },
+        },
+      },
+    ]);
+    res.status(200).send({ groups });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ err: error.message });
+  }
+};
