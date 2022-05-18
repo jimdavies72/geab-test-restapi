@@ -25,6 +25,10 @@ exports.listProductsPrice = async (req, res) => {
 exports.groupByType = async (req, res) => {
   try {
     const groups = await Products.aggregate([
+      // @TODO @FIXME sorting is not working correctly and showing unexpected behaviour.
+      // {
+      //   $sort: { "price.value": 1 },
+      // },
       {
         $group: {
           _id: "$type",
