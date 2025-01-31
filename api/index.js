@@ -1,7 +1,7 @@
-require("./db/connection");
+require("../src/db/connection");
 const express = require("express");
 const cors = require("cors");
-const productsRouter = require("./products/productsRoutes");
+const productsRouter = require("../src/products/productsRoutes");
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -13,3 +13,5 @@ app.use(productsRouter);
 app.listen(port, () => {
   console.log(`App is listening on port: ${port}`);
 });
+
+module.exports = app;
